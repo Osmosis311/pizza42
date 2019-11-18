@@ -1,0 +1,22 @@
+{
+  "name": "01-login",
+  "version": "1.0.0",
+  "description": "Sample application for the new Auth0 SPA SDK",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^1.19.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-jwt": "^5.3.1",
+    "helmet": "^3.21.0",
+    "jwks-rsa": "^1.6.0",
+    "morgan": "^1.9.1"
+  }
+}
