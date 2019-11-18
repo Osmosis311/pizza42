@@ -82,7 +82,7 @@ document.getElementById('checkOrders').addEventListener('click', async () => {
     }
   });
   const data = await result.json();
-  console.log(data);
+  document.getElementById('lastOrder').innerHTML = `Your last order had ${data[0].pizzas} with a topping of ${data[0].toppings}!`;
 });
 
 window.onpopstate = (e) => {

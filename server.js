@@ -1,12 +1,10 @@
 const express = require('express');
-const {
-  join
-} = require('path');
+const { join } = require('path');
 const app = express();
 const jwt = require('express-jwt');
 const jwks = require('jwks-rsa');
 const port = process.env.PORT || 3000;
-const request = require("request");
+const request = require('request');
 
 app.use(express.static(join(__dirname, 'public')));
 
@@ -24,11 +22,13 @@ const jwtCheck = jwt({
 
 app.get('/orders', jwtCheck, (req, res) => {
   res.end(
-    JSON.stringify([{
-      orderID: 1,
-      pizzas: 7,
-      toppings: 'onion'
-    }])
+    JSON.stringify([
+      {
+        orderID: 1,
+        pizzas: 7,
+        toppings: 'onion'
+      }
+    ])
   );
 });
 
@@ -54,15 +54,16 @@ function getAccessToken() {
     headers: {
       'content-type': 'application/json'
     },
-    body: '{"client_id":"Uwa9PrcnmAc0QyqJCr59o8FsQ41FlOQN","client_secret":"7cHWor0NiHlRf8HlMhQf3LTYgBmsu_DTjxxApSTHOHzsyeYLdfCmFnV37NrgAokB","audience":"https://dev-nuxjd7sz.auth0.com/api/v2/","grant_type":"client_credentials"}'
+    body:
+      '{"client_id":"Uwa9PrcnmAc0QyqJCr59o8FsQ41FlOQN","client_secret":"7cHWor0NiHlRf8HlMhQf3LTYgBmsu_DTjxxApSTHOHzsyeYLdfCmFnV37NrgAokB","audience":"https://dev-nuxjd7sz.auth0.com/api/v2/","grant_type":"client_credentials"}'
   };
 
   return new Promise((resolve) => {
-    request(options, function (error, response, body) {
+    request(options, function(error, response, body) {
       if (error) throw new Error(error);
       resolve(JSON.parse(body));
     });
-  })
+  });
 }
 
 async function getUserConnections(userID, res) {
@@ -76,18 +77,22 @@ async function getUserConnections(userID, res) {
     }
   };
 
-  request(options, function (error, response, body) {
+  request(options, function(error, response, body) {
     var googleAccessToken = JSON.parse(body).identities[0].access_token;
     var options = {
-      method: "GET",
+      method: 'GET',
       url: `https://people.googleapis.com/v1/people/me/connections?requestMask.includeField=person.names`,
       headers: {
         authorization: `Bearer ${googleAccessToken}`
       }
     };
-    request(options, function (error, response, body) {
+    request(options, function(error, response, body) {
       var googleConnections = JSON.parse(body);
-      res.end(JSON.stringify({connectionCount: googleConnections.connections.length}));
+      res.end(
+        JSON.stringify({
+          connectionCount: googleConnections.connections.length
+        })
+      );
     });
   });
 }
