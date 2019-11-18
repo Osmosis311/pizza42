@@ -33,18 +33,19 @@ const updateUI = async () => {
 
     if (isAuthenticated) {
       const user = await auth0.getUser();
+      const profileInfoRequest = await fetch(`/userProfileInfo?user_id=${user.sub}`);
+      const profileData = await profileInfoRequest.json();
 
-      console.dir(user);
-      const connectionsReq = await fetch(`/connections?user_id=${user.sub}`);
-      const connectionsData = await connectionsReq.json();
-
-      console.dir(connectionsData);
-
-      if (connectionsData && connectionsData.connectionCount) {
-        document.getElementById('connections').innerHTML = `Wow, you have ${connectionsData.connectionCount} connections!`;
+      if (profileData) {
+        if (profileData.connectionCount) {
+          document.getElementById('connections').innerHTML = `Wow, you have ${profileData.connectionCount} connections!`;
+        }
+        if (profileData.userGender) {
+          document.getElementById('genderInfo').innerHTML = `Your profile lists you as ${profileData.userGender}`;
+        }
       }
 
-      if(user.email_verified) {
+      if (user.email_verified) {
         document.getElementById('checkOrders').classList.remove('hidden');
         document.getElementById('verifyEmail').classList.add('hidden');
       } else {

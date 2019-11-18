@@ -6,6 +6,7 @@ const login = async (targetUrl) => {
 
     const options = {
       redirect_uri: window.location.origin,
+      scope: 'openid profile offline_access email gender',
     };
 
     if (targetUrl) {
@@ -42,6 +43,7 @@ const configureClient = async () => {
     domain: config.domain,
     client_id: config.clientId,
     audience: 'orders',
+    scope: 'openid profile offline_access email gender',
     connection_scope: 'https://www.googleapis.com/auth/contacts.readonly',
   });
 };
